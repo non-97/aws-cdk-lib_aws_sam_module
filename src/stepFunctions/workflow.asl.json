@@ -1,0 +1,84 @@
+{
+  "Comment": "A description of my state machine",
+  "StartAt": "Pass 1",
+  "States": {
+    "Pass 1": {
+      "Type": "Pass",
+      "Next": "Wait"
+    },
+    "Wait": {
+      "Type": "Wait",
+      "Seconds": 1,
+      "Next": "Parallel 1"
+    },
+    "Parallel 1": {
+      "Type": "Parallel",
+      "Branches": [
+        {
+          "StartAt": "Pass 2",
+          "States": {
+            "Pass 2": {
+              "Type": "Pass",
+              "Next": "Parallel 2"
+            },
+            "Parallel 2": {
+              "Type": "Parallel",
+              "Branches": [
+                {
+                  "StartAt": "Pass 4",
+                  "States": {
+                    "Pass 4": {
+                      "Type": "Pass",
+                      "End": true
+                    }
+                  }
+                },
+                {
+                  "StartAt": "Pass 5",
+                  "States": {
+                    "Pass 5": {
+                      "Type": "Pass",
+                      "End": true
+                    }
+                  }
+                }
+              ],
+              "Next": "Pass 6"
+            },
+            "Pass 6": {
+              "Type": "Pass",
+              "End": true
+            }
+          }
+        },
+        {
+          "StartAt": "Pass 3",
+          "States": {
+            "Pass 3": {
+              "Type": "Pass",
+              "End": true
+            }
+          }
+        }
+      ],
+      "Next": "Choice"
+    },
+    "Choice": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$",
+          "IsPresent": true,
+          "Next": "Success"
+        }
+      ],
+      "Default": "Fail"
+    },
+    "Success": {
+      "Type": "Succeed"
+    },
+    "Fail": {
+      "Type": "Fail"
+    }
+  }
+}
